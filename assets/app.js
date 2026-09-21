@@ -88,7 +88,7 @@
       '',
       v('f-msg')
     ].join('\n');
-    location.href = 'mailto:hello@dexteris.ai'
+    location.href = 'mailto:blaine@dexterisai.com'
       + '?subject=' + encodeURIComponent('Project enquiry — ' + (v('f-org') || v('f-name')))
       + '&body=' + encodeURIComponent(body);
   });
