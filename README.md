@@ -14,7 +14,7 @@ assets/dexteris-mark.png   original logo (OG share image)
 
 ## Deployment
 
-Served by GitHub Pages from `main`, at the apex domain in `CNAME`. `.nojekyll`
+Served by GitHub Pages from `main`, at the apex domain in `CNAME` (dexterisai.com). `.nojekyll`
 disables Jekyll processing. Push to `main` to publish.
 
 ## Design
