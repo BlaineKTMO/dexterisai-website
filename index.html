@@ -366,8 +366,9 @@
         <label for="f-msg">What you need it to do</label>
         <textarea id="f-msg" name="message" placeholder="The equipment, the task, and the date someone needs to see it working." required></textarea>
       </div>
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" hidden>
       <button class="btn btn-primary" type="submit">Send <svg><use href="#arrow"/></svg></button>
-      <small id="form-note">Opens in your mail client. Nothing is sent from this page.</small>
+      <small id="form-note" aria-live="polite"></small>
     </form>
   </div>
 </section>

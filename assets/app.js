@@ -70,27 +70,73 @@
     armed.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---------- contact form → mail client ---------- */
+  /* ---------- contact form → Web3Forms ---------- */
+  // Public access key from web3forms.com; submissions go to the inbox it was issued to.
+  // Left empty, the form falls back to opening the visitor's mail client.
+  var FORM_KEY = '';
+  var MAIL_TO = 'blaine@dexterisai.com';
+
   var form = document.getElementById('form');
+  var note = document.getElementById('form-note');
+  var send = form.querySelector('button[type="submit"]');
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var v = function (id) { return (document.getElementById(id).value || '').trim(); };
     if (!v('f-name') || !v('f-email') || !v('f-msg')) {
-      document.getElementById('form-note').textContent =
-        'Name, email, and a line about the robot, please.';
+      note.textContent = 'Name, email, and a line about the robot, please.';
       return;
     }
-    var body = [
-      'Name: ' + v('f-name'),
-      'Email: ' + v('f-email'),
-      'Organisation: ' + (v('f-org') || '—'),
-      'Stage: ' + v('f-stage'),
-      '',
-      v('f-msg')
-    ].join('\n');
-    location.href = 'mailto:blaine@dexterisai.com'
-      + '?subject=' + encodeURIComponent('Project enquiry — ' + (v('f-org') || v('f-name')))
-      + '&body=' + encodeURIComponent(body);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('f-email'))) {
+      note.textContent = 'That email address doesn’t look right.';
+      return;
+    }
+    var subject = 'Project enquiry — ' + (v('f-org') || v('f-name'));
+
+    if (!FORM_KEY) {
+      var body = [
+        'Name: ' + v('f-name'),
+        'Email: ' + v('f-email'),
+        'Organisation: ' + (v('f-org') || '—'),
+        'Stage: ' + v('f-stage'),
+        '',
+        v('f-msg')
+      ].join('\n');
+      location.href = 'mailto:' + MAIL_TO
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+      return;
+    }
+
+    send.disabled = true;
+    note.textContent = 'Sending…';
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: FORM_KEY,
+        subject: subject,
+        from_name: 'dexterisai.com',
+        replyto: v('f-email'),
+        name: v('f-name'),
+        email: v('f-email'),
+        company: v('f-org') || '—',
+        stage: v('f-stage'),
+        message: v('f-msg'),
+        botcheck: form.querySelector('[name="botcheck"]').checked
+      })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d.success) throw new Error(d.message);
+        form.reset();
+        note.textContent = 'Sent — thanks. I’ll be in touch.';
+      })
+      .catch(function () {
+        note.innerHTML = 'That didn’t go through. Email <a href="mailto:' + MAIL_TO + '">'
+          + MAIL_TO + '</a> directly.';
+      })
+      .then(function () { send.disabled = false; });
   });
 
   document.getElementById('yr').textContent = String(new Date().getFullYear());
