@@ -73,7 +73,7 @@
   /* ---------- contact form → Web3Forms ---------- */
   // Public access key from web3forms.com; submissions go to the inbox it was issued to.
   // Left empty, the form falls back to opening the visitor's mail client.
-  var FORM_KEY = '';
+  var FORM_KEY = '2897a830-7b4e-48bc-8966-c7dabf801630';
   var MAIL_TO = 'blaine@dexterisai.com';
 
   var form = document.getElementById('form');
