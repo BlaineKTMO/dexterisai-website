@@ -17,6 +17,10 @@ assets/dexteris-mark.png   original logo (OG share image)
 Served by GitHub Pages from `main`, at the apex domain in `CNAME` (dexterisai.com). `.nojekyll`
 disables Jekyll processing. Push to `main` to publish.
 
+Pages caches assets for 10 minutes, so `index.html` loads `styles.css` and `app.js` with a
+`?v=` query. After editing either file, bump its value (the first 8 characters of
+`md5 -q assets/app.js` is what's used now) or returning visitors keep the old copy.
+
 ## Design
 
 Soft-UI, used sparingly. Depth is spent on four things only: the header bar, the hero
