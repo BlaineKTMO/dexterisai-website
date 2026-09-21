@@ -402,3 +402,9 @@ p  { margin: 0; text-wrap: pretty; }
   background: none; color: var(--brand);
   border-bottom: 1px dotted var(--brand); padding-bottom: 1px;
 }
+
+.shot-fig { margin: 0; align-self: start; }
+.shot-fig figcaption {
+  margin-top: 10px; font-family: var(--mono); font-size: .66rem;
+  letter-spacing: .06em; line-height: 1.55; color: var(--ink-3);
+}
