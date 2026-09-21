@@ -36,12 +36,11 @@ It solves two-link IK toward targets it picks at random, and holds still under
 
 ## The contact form
 
-It composes a `mailto:` and hands off to the visitor's mail client. No backend, nothing
-to leak, but conversion is worse than a real endpoint. To switch to Formspree:
-
-1. Add `action="https://formspree.io/f/XXXX" method="POST"` to `<form id="form">` and
-   drop `novalidate`.
-2. Delete the `form.addEventListener('submit', ...)` block in `assets/app.js`.
+Submissions POST to [Web3Forms](https://web3forms.com) from the browser and are delivered
+to the inbox the access key was issued to. The key is public by design and lives in
+`FORM_KEY` at the top of the form block in `assets/app.js`. A hidden `botcheck` checkbox
+is the spam honeypot. If `FORM_KEY` is empty the form falls back to opening the visitor's
+mail client addressed to `MAIL_TO`.
 
 ## Accessibility
 
